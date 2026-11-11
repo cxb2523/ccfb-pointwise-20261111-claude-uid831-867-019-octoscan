@@ -1,0 +1,31 @@
+on: push
+
+jobs:
+  quoted-tag:
+    runs-on: ubuntu-latest
+    steps:
+      # 1. hit: quoted step uses pinned to a tag
+      - uses: "octo/action@v4"
+  release-job:
+    # 2. hit: job level reusable workflow, ref "2" split on the last "@"
+    uses: octo/release/.github/workflows/release.yml@2
+  short-sha:
+    runs-on: ubuntu-latest
+    steps:
+      # 3. hit: 7 hex characters shortened commit SHA
+      - uses: octo/action@abcdef7
+  pinned-sha:
+    runs-on: ubuntu-latest
+    steps:
+      # no hit: full length 40 lowercase hex characters commit SHA
+      - uses: octo/action@0123456789abcdef0123456789abcdef01234567
+  local:
+    runs-on: ubuntu-latest
+    steps:
+      # no hit: local reference without any "@"
+      - uses: ./local/action
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      # no hit: docker image digest, the "@" belongs to the docker scheme
+      - uses: docker://alpine@sha256:0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef

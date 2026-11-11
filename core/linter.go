@@ -41,6 +41,7 @@ var (
 		"debug-artefacts":        true,
 		"debug-js-exec":          true,
 		"debug-oidc-action":      true,
+		"unpinned-action":        true,
 	}
 )
 
@@ -113,6 +114,10 @@ func offlineRules() []actionlint.Rule {
 
 	if RulesSwitch["local-action"] {
 		res = append(res, rules.NewRuleLocalAction(FilterTriggers))
+	}
+
+	if RulesSwitch["unpinned-action"] {
+		res = append(res, rules.NewRuleUnpinnedAction(FilterTriggers))
 	}
 
 	if RulesSwitch["runner-label"] {
